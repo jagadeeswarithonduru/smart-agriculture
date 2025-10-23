@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Agriculture</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .animated-fade {
+            animation: fadeIn 1s ease-in-out;
+        }
+    </style>
+    <script>
+        async function predictYield(event) {
+            event.preventDefault(); // Prevent form submission
+            
+            // Gather input values
+            const inputData = {
+                crop: document.getElementById('crop').value,
+                season: document.getElementById('season').value,
+                area: parseFloat(document.getElementById('area').value),
+                annual_rainfall: parseFloat(document.getElementById('annual_rainfall').value),
+                fertilizer: parseFloat(document.getElementById('fertilizer').value),
+                pesticide: parseFloat(document.getElementById('pesticide').value),
+            };
+
+            try {
+                // Call the backend API
+                const response = await fetch('http://127.0.0.1:5000/predict_yield', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(inputData),
+                });
+
+                const result = await response.json();
+
+                // Display the result
+                if (response.ok) {
+                    document.getElementById('label').value = `${result.predicted_yield} tons`;
+                } else {
+                    document.getElementById('label').value = `Error: ${result.error}`;
+                }
+            } catch (error) {
+                document.getElementById('label').value = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-r from-green-400 to-blue-500 h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md p-4 flex justify-between items-center rounded-full mx-4 mt-4">
+        <div class="text-xl font-bold text-green-600 mx-6"><a href="index.html">Smart Agriculture</a></div>
+        <ul class="flex space-x-4">
+            <li><a href="index.html" class="text-gray-700 font-bold hover:text-green-600 px-3 py-2 rounded-md hover:bg-gray-100">Home</a></li>
+            <li><a href="about.html" class="text-gray-700 font-bold hover:text-green-600 px-3 py-2 rounded-md hover:bg-gray-100">About</a></li>
+            <li><a href="contact.html" class="text-gray-700 font-bold hover:text-green-600 px-3 py-2 rounded-md hover:bg-gray-100">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="text-center mb-8 mt-10">
+        <h1 class="text-4xl font-bold text-white animated-fade">Crop Yield Prediction System</h1>
+        <p class="text-lg text-gray-100 mt-2 animated-fade">"Provide inputs to predict the Yield of the crop."</p>
+    </header>
+
+    <!-- Form Section -->
+    <div class="flex-grow flex justify-center items-center">
+        <div class="bg-white shadow-lg rounded-xl mb-8 p-8 w-11/12 md:w-3/4 lg:w-1/2 animated-fade">
+            <form onsubmit="predictYield(event)" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="crop" class="block text-gray-700 font-medium">Crop</label>
+                        <select id="crop" name="crop" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500">
+                            <option value="" disabled selected>Select a crop</option>
+                            <option value="Arecanut">Arecanut</option>
+                            <option value="Arhar/Tur">Arhar/Tur</option>
+                            <option value="Castor seed">Castor seed</option>
+                            <option value="Coconut">Coconut</option>
+                            <option value="Cotton(lint)">Cotton(lint)</option>
+                            <option value="Dry chillies">Dry chillies</option>
+                            <option value="Gram">Gram</option>
+                            <option value="Jute">Jute</option>
+                            <option value="Linseed">Linseed</option>
+                            <option value="Maize">Maize</option>
+                            <option value="Mesta">Mesta</option>
+                            <option value="Niger seed">Niger seed</option>
+                            <option value="Onion">Onion</option>
+                            <option value="Other Rabi pulses">Other Rabi pulses</option>
+                            <option value="Potato">Potato</option>
+                            <option value="Rapeseed &Mustard">Rapeseed &Mustard</option>
+                            <option value="Rice">Rice</option>
+                            <option value="Sesamum">Sesamum</option>
+                            <option value="Small millets">Small millets</option>
+                            <option value="Sugarcane">Sugarcane</option>
+                            <option value="Sweet potato">Sweet potato</option>
+                            <option value="Tapioca">Tapioca</option>
+                            <option value="Tobacco">Tobacco</option>
+                            <option value="Turmeric">Turmeric</option>
+                            <option value="Wheat">Wheat</option>
+                            <option value="Bajra">Bajra</option>
+                            <option value="Black pepper">Black pepper</option>
+                            <option value="Cardamom">Cardamom</option>
+                            <option value="Coriander">Coriander</option>
+                            <option value="Garlic">Garlic</option>
+                            <option value="Ginger">Ginger</option>
+                            <option value="Groundnut">Groundnut</option>
+                            <option value="Horse-gram">Horse-gram</option>
+                            <option value="Jowar">Jowar</option>
+                            <option value="Ragi">Ragi</option>
+                            <option value="Cashewnut">Cashewnut</option>
+                            <option value="Banana">Banana</option>
+                            <option value="Soyabean">Soyabean</option>
+                            <option value="Barley">Barley</option>
+                            <option value="Khesari">Khesari</option>
+                            <option value="Masoor">Masoor</option>
+                            <option value="Moong(Green Gram)">Moong(Green Gram)</option>
+                            <option value="Other Kharif pulses">Other Kharif pulses</option>
+                            <option value="Safflower">Safflower</option>
+                            <option value="Sannhamp">Sannhamp</option>
+                            <option value="Sunflower">Sunflower</option>
+                            <option value="Urad">Urad</option>
+                            <option value="Peas & beans (Pulses)">Peas & beans (Pulses)</option>
+                            <option value="Other oilseeds">Other oilseeds</option>
+                            <option value="Other Cereals">Other Cereals</option>
+                            <option value="Cowpea(Lobia)">Cowpea(Lobia)</option>
+                            <option value="Oilseeds total">Oilseeds total</option>
+                            <option value="Guar seed">Guar seed</option>
+                            <option value="Other Summer Pulses">Other Summer Pulses</option>
+                            <option value="Moth">Moth</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="season" class="block text-gray-700 font-medium">Season</label>
+                        <select name="season" id="season" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500">
+                            <option value="" disabled selected>Select a Season</option>
+                            <option value="Whole Year">Whole Year</option>
+                            <option value="Kharif">Kharif</option>
+                            <option value="Rabi">Rabi</option>
+                            <option value="Autumn">Autumn</option>
+                            <option value="Summer">Summer</option>
+                            <option value="Winter">Winter</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="area" class="block text-gray-700 font-medium">Area (hectares)</label>
+                        <input type="number" id="area" name="area" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label for="annual_rainfall" class="block text-gray-700 font-medium">Annual Rainfall (mm)</label>
+                        <input type="number" id="annual_rainfall" name="annual_rainfall" step="0.1" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label for="fertilizer" class="block text-gray-700 font-medium">Fertilizer (kg/ha)</label>
+                        <input type="number" id="fertilizer" name="fertilizer" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label for="pesticide" class="block text-gray-700 font-medium">Pesticide (liters/ha)</label>
+                        <input type="number" id="pesticide" name="pesticide" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="label" class="block text-gray-700 font-medium">Predicted Crop Yield</label>
+                    <input type="text" id="label" name="label" readonly placeholder="Crop Yield Prediction will appear here" class="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:outline-none">
+                </div>
+
+                <div class="flex justify-center">
+                    <button type="submit" class="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-green-700 transform transition duration-300 hover:scale-105">Predict Yield</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
